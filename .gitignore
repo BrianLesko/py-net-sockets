@@ -1,0 +1,4 @@
+my_env
+.gitattributes
+DS.Store
+__pycache__
