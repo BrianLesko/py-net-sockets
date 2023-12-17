@@ -3,7 +3,6 @@
 import socket
 import streamlit as st 
 import customize_gui # streamlit GUI modifications
-from ethernet import ethernet as eth
 gui = customize_gui.gui()
 
 def main():
