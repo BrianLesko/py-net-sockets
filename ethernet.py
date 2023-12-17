@@ -31,7 +31,7 @@ class ethernet:
     def send_and_receive(self, command):
         bytes = command.encode()
         self.s.sendall(bytes)
-        response = self.s.recv(12345)
+        response = self.s.recv(1024) # Max amount of bytes to receive
         if response:
             return response.decode()
         else:

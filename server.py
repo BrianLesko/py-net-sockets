@@ -13,20 +13,18 @@ def main():
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server.bind(('192.168.1.124', 12345))  # Replace '0.0.0.0' with the server's IP address
-    server.listen()
+    server.listen() # wait for client connections
 
     st.write("Waiting for connection...")
     client_socket, client_address = server.accept()
     st.write(f"Connected to {client_address}")
 
-    message = client_socket.recv(12345).decode()
-    while message != 'exit':  # Exit condition
+    while client_socket.getsockopt(socket.SOL_SOCKET, socket.SO_ERROR) == 0: # if the connection is established
+        message = client_socket.recv(12345).decode()
+        st.write(message)
         if message: 
             st.write(f"Client: {message}")
-            reply = st.chat_input("Reply: ")
-            if reply:
-                client_socket.send(reply.encode())
-        message = client_socket.recv(12345).decode()
+            # reply = st.chat_input("Reply: ")
 
     client_socket.close()
     server.close()
