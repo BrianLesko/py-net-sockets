@@ -35,6 +35,14 @@ class ethernet:
     def disconnect(self): 
         self.s.close()
         return f"The connection with *{self.name}* was closed."
+    
+    def receive(self):
+        response = self.s.recv(1024) # Max amount of bytes to receive
+        if response:
+            return response.decode()
+        else:
+            return None 
+
 
     def send_and_receive(self, command):
         bytes = command.encode()

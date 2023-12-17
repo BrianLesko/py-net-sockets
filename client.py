@@ -10,31 +10,25 @@ def main():
     gui.clean_format()
     gui.about(text = "Chat to another computer using TCP network protocol")
     st.title("Client app")
-    
-    with st.spinner("Waiting for connection..."):
-        connected_indicator = st.empty()
-        client = eth("client",'192.168.1.124', 12345)# Replace 'server_ip_address' with the server's IP address
-        client.connect()  # Replace 'server_ip_address' with the server's IP address
+    connected_indicator = st.empty()
 
-    message = st.chat_input("You:", key="user_input")
+    try: 
+        with connected_indicator: st.write("Not connected to server")
+        st.session_state.client.is_connected()
+    except:
+        with st.spinner("Waiting for connection..."):
+            client = eth("client",'192.168.1.124', 12345)# Replace 'server_ip_address' with the server's IP address
+            client.connect()  # Replace 'server_ip_address' with the server's IP address
+            with connected_indicator: st.write("Connected to server")
+            st.session_state.client = client
 
-    while client.is_connected():
-        with connected_indicator: st.write("Connected to server")
-        message = "Hello World Twice"
+    message = st.chat_input("Type a message")
+    if message: 
         st.write(f"You: {message}")
-        reply = client.send_and_receive(message)
-        if reply:   
+        reply = st.session_state.client.send_and_receive(message)
+        if reply: 
             st.write(f'Server: {reply}' )
         else: 
-            st.write("Server did Not reply")
-
-        """ 
-        if message: 
-            st.chat_message("User").write(f"You: {message}")
-            reply = client.send_and_receive(message)
-            with st.chat_message("Server"):
-                st.write(f"Server: {reply}") """
-
-    client.disconnect()
+                st.write("Server did Not reply")
         
 main()
