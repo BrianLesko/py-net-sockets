@@ -31,8 +31,11 @@ class ethernet:
     def send_and_receive(self, command):
         bytes = command.encode()
         self.s.sendall(bytes)
-        response = self.s.recv(1024)
-        return response.decode()
+        response = self.s.recv(12345)
+        if response:
+            return response.decode()
+        else:
+            return None 
     
     def to_df(self):
         df = pd.DataFrame({'name': [self.name], 'ipv4': [self.IP], 'port': [self.PORT]})

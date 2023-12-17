@@ -11,17 +11,15 @@ def main():
     gui.about(text = "Chat to another computer using TCP network protocol")
     st.title("Client app")
 
-    client = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    client.connect(('192.168.1.124', 12345))  # Replace 'server_ip_address' with the server's IP address
+    client = eth("client",'192.168.1.124', 12345)# Replace 'server_ip_address' with the server's IP address
+    client.connect()  # Replace 'server_ip_address' with the server's IP address
 
     message = st.chat_input("You: ")
     if message: 
-        client.send(message.encode())
-        reply = client.recv(1024).decode()
-        if not reply:
-            return
-        st.write(f"Server: {reply}")
+        reply = client.send_and_receive(message)
+        with st.chat_message("Server"):
+            st.write(f"Server: {reply}")
 
-    # client.close()
+    client.disconnect()
         
 main()
