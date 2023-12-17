@@ -24,7 +24,8 @@ def main():
         message = client_socket.recv(1024).decode()
         if message: 
             st.write(f"Client: {message}")
-            client_socket.sendall(f'Received: {message}').encode()
+            reply = f'Received: {message}'
+            client_socket.sendall(reply.encode())
 
     client_socket.close()
     server.close()
