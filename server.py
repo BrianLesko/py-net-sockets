@@ -19,13 +19,16 @@ def main():
     client_socket, client_address = server.accept()
     st.write(f"Connected to {client_address}")
 
-    message = client_socket.recv(1024).decode()
-    if not message:
-        return
-    st.write(f"Client: {message}")
-    reply = st.chat_input("Reply: ")
-    if reply:
-        client_socket.send(reply.encode())
+    message = client_socket.recv(12345).decode()
+    while message != 'exit':  # Exit condition
+        if message: 
+            st.write(f"Client: {message}")
+            reply = st.chat_input("Reply: ")
+            if reply:
+                client_socket.send(reply.encode())
+        message = client_socket.recv(12345).decode()
 
-    #client_socket.close()
-    #server.close()
+    client_socket.close()
+    server.close()
+
+main()
