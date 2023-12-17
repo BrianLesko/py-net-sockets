@@ -24,6 +24,14 @@ class ethernet:
             messages.append(e)
         return messages
     
+    def is_connected(self):
+        if self.s.getsockopt(socket.SOL_SOCKET, socket.SO_ERROR) == 0:
+            self.connected = True
+        else:
+            self.connected = False
+        return self.connected
+
+    
     def disconnect(self): 
         self.s.close()
         return f"The connection with *{self.name}* was closed."

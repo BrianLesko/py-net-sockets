@@ -14,8 +14,13 @@ def main():
     client = eth("client",'192.168.1.124', 12345)# Replace 'server_ip_address' with the server's IP address
     client.connect()  # Replace 'server_ip_address' with the server's IP address
 
+    if client.is_connected():
+        st.write("Connected to server")
+
     message = st.chat_input("You: ")
+
     if message: 
+        st.chat_message("User").write(f"You: {message}")
         reply = client.send_and_receive(message)
         with st.chat_message("Server"):
             st.write(f"Server: {reply}")
