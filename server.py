@@ -17,15 +17,13 @@ def main():
     st.write("Waiting for connection...")
     client_socket, client_address = server.accept()
     st.write(f"Connected to {client_address}")
+    status = st.empty()
 
     while client_socket.getsockopt(socket.SOL_SOCKET, socket.SO_ERROR) == 0: # if the connection is established
-        message = client_socket.recv(12345).decode()
+        with status: st.write("Waiting for messages...")
+        message = client_socket.recv(1024).decode()
         if message: 
             st.write(f"Client: {message}")
-            reply = st.chat_input("Reply: ")
-            if reply: 
-                st.chat_message("Server").write(f"You: {reply}")
-                client_socket.send(reply.encode())
 
     client_socket.close()
     server.close()

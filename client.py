@@ -10,20 +10,24 @@ def main():
     gui.clean_format()
     gui.about(text = "Chat to another computer using TCP network protocol")
     st.title("Client app")
+    
+    with st.spinner("Waiting for connection..."):
+        connected_indicator = st.empty()
+        client = eth("client",'192.168.1.124', 12345)# Replace 'server_ip_address' with the server's IP address
+        client.connect()  # Replace 'server_ip_address' with the server's IP address
 
-    client = eth("client",'192.168.1.124', 12345)# Replace 'server_ip_address' with the server's IP address
-    client.connect()  # Replace 'server_ip_address' with the server's IP address
+    message = st.chat_input("You:", key="user_input")
 
-    if client.is_connected():
-        st.write("Connected to server")
+    while client.is_connected():
+        with connected_indicator: st.write("Connected to server")
+        reply = client.send_and_receive("Hello World")
 
-    message = st.chat_input("You: ")
-
-    if message: 
-        st.chat_message("User").write(f"You: {message}")
-        reply = client.send_and_receive(message)
-        with st.chat_message("Server"):
-            st.write(f"Server: {reply}")
+        """ 
+        if message: 
+            st.chat_message("User").write(f"You: {message}")
+            reply = client.send_and_receive(message)
+            with st.chat_message("Server"):
+                st.write(f"Server: {reply}") """
 
     client.disconnect()
         
