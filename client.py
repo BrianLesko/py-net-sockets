@@ -20,7 +20,13 @@ def main():
 
     while client.is_connected():
         with connected_indicator: st.write("Connected to server")
-        reply = client.send_and_receive("Hello World")
+        message = "Hello World Twice"
+        st.write(f"You: {message}")
+        reply = client.send_and_receive(message)
+        if reply:   
+            st.write(f'Server: {reply}' )
+        else: 
+            st.write("Server did Not reply")
 
         """ 
         if message: 
