@@ -1,4 +1,5 @@
-# Socket Stream(lit)
+# Py-net
+Socket Stream(lit)
 This code implements wireless socket communication between a server and client - written in pure python with a user interface for both computers. To recreate what ive done here you'll need two laptops and a network to communicate over. Make sure your IP addresses and subnet masks are correct and networkable. 
 
 ![Preview](docs/preview.png)
