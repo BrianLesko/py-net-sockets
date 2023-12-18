@@ -1,4 +1,5 @@
 # Brian Lesko 12/16/2023
+# Implements a client to send data to a server, it is built only on the socket and streamlit library
 
 import socket
 import streamlit as st 
@@ -8,7 +9,7 @@ gui = customize_gui.gui()
 
 def client():
     gui.clean_format()
-    gui.about(text = "Chat with another computer using TCP network protocol")
+    gui.about(text = "Wirelessly send data to a computer using TCP network protocol")
     st.title("Client app")
 
     if 'client' not in st.session_state:

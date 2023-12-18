@@ -1,4 +1,5 @@
 # Brian Lesko 12/16/2023
+# This streamlit app implements a server that receives data from a client, it is built only on the socket and streamlit library
 
 import socket
 import streamlit as st 
@@ -7,7 +8,7 @@ gui = customize_gui.gui()
 
 def server():
     gui.clean_format()
-    gui.about(text = "Receive data from another computer using TCP network protocol")
+    gui.about(text = "Wirelessly receive data from another computer via TCP network protocol")
     st.title("Server app")
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
