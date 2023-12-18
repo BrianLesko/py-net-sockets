@@ -5,9 +5,9 @@ import streamlit as st
 import customize_gui # streamlit GUI modifications
 gui = customize_gui.gui()
 
-def main():
+def server():
     gui.clean_format()
-    gui.about(text = "Chat to another computer using TCP network protocol")
+    gui.about(text = "Receive data from another computer using TCP network protocol")
     st.title("Server app")
 
     server = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -19,15 +19,19 @@ def main():
     st.write(f"Connected to {client_address}")
     status = st.empty()
 
-    while client_socket.getsockopt(socket.SOL_SOCKET, socket.SO_ERROR) == 0: # if the connection is established
-        with status: st.write("Waiting for messages...")
-        message = client_socket.recv(1024).decode()
-        if message: 
-            st.write(f"Client: {message}")
-            reply = f'Received: {message}'
-            client_socket.sendall(reply.encode())
+    while True:
+        try: # if the connection is established
+            with status: st.write("Waiting for messages...")
+            message = client_socket.recv(1024).decode()
+            if message: 
+                st.write(f"Client: {message}")
+                reply = f'Received: {message}'
+                client_socket.sendall(reply.encode())
 
-    client_socket.close()
-    server.close()
+        except: # if the connection is lost
+            st.write("Client disconnected")
+            client_socket.close()
+            server.close()
+            break
 
-main()
+server()
