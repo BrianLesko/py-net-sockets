@@ -6,21 +6,14 @@ import customize_gui # streamlit GUI modifications
 from ethernet import ethernet as eth
 gui = customize_gui.gui()
 
-def main():
+def client():
     gui.clean_format()
-    gui.about(text = "Chat to another computer using TCP network protocol")
+    gui.about(text = "Chat with another computer using TCP network protocol")
     st.title("Client app")
-    connected_indicator = st.empty()
 
-    try: 
-        with connected_indicator: st.write("Not connected to server")
-        st.session_state.client.is_connected()
-    except:
-        with st.spinner("Waiting for connection..."):
-            client = eth("client",'192.168.1.124', 12345)# Replace 'server_ip_address' with the server's IP address
-            client.connect()  # Replace 'server_ip_address' with the server's IP address
-            with connected_indicator: st.write("Connected to server")
-            st.session_state.client = client
+    if 'client' not in st.session_state:
+         st.session_state.client = eth("client",'192.168.1.124', 12345)
+         st.session_state.client.connect()
 
     message = st.chat_input("Type a message")
     if message: 
@@ -31,4 +24,4 @@ def main():
         else: 
                 st.write("Server did Not reply")
         
-main()
+client()
