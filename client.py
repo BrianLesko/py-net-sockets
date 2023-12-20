@@ -13,7 +13,7 @@ def client():
     st.title("Client app")
 
     if 'client' not in st.session_state:
-         st.session_state.client = eth("client",'192.168.1.124', 12345)
+         st.session_state.client = eth("client",'192.168.1.112', 12345)
          st.session_state.client.connect()
 
     message = st.chat_input("Type a message")
